@@ -1,0 +1,150 @@
+import org.apache.commons.lang3.StringUtils;
+
+Bin RegNo = null;
+Bin EgMerchantId = null;
+Bin MeIxnId = null;
+Bin RegRefId = null;
+Bin RegType = null;
+Bin VirtualAddress = null;
+Bin MetrnRefno = null;
+Bin BankCode = null;
+Bin CardDigits = null;
+Bin CardExpDate = null;
+Bin DisputeType = null;
+Bin DisputeRemarks = null;
+Bin Add1 = null;
+Bin Add2 = null;
+Bin Add3 = null;
+Bin Add4 = null;
+Bin Add5 = null;
+Bin Add6 = null;
+Bin Add7 = null;
+Bin Add8 = null;
+Bin Add9 = null;
+Bin Add10 = null;
+Bin CrtBy = null;
+Bin CrtIp = null;
+Bin MdyBy = null;
+Bin MdyIp = null;
+Bin CurrStatusCode = null;
+Bin CurrStatusDesc = null;
+Bin dId = null;
+
+List<Bin> columns = new ArrayList<>();
+
+if (StringUtils.isNotBlank(memberReqDTO.getRegNo())) {
+    RegNo = new Bin("REGNO", memberReqDTO.getRegNo());
+    columns.add(RegNo);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getEgMerchantId())) {
+    EgMerchantId = new Bin("EGMERCHANTID", memberReqDTO.getEgMerchantId());
+    columns.add(EgMerchantId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMeIxnId())) {
+    MeIxnId = new Bin("MEIXNID", memberReqDTO.getMeIxnId());
+    columns.add(MeIxnId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getRegRefId())) {
+    RegRefId = new Bin("REGREFID", memberReqDTO.getRegRefId());
+    columns.add(RegRefId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getRegType())) {
+    RegType = new Bin("REGTYPE", memberReqDTO.getRegType());
+    columns.add(RegType);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getVirtualAddress())) {
+    VirtualAddress = new Bin("VIRTUALADDRESS", memberReqDTO.getVirtualAddress());
+    columns.add(VirtualAddress);
+}
+if (memberReqDTO.getMetrnRefno() != 0) {
+    MetrnRefno = new Bin("METRNREFNO", memberReqDTO.getMetrnRefno());
+    columns.add(MetrnRefno);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getBankCode())) {
+    BankCode = new Bin("BANKCODE", memberReqDTO.getBankCode());
+    columns.add(BankCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCardDigits())) {
+    CardDigits = new Bin("CARDDIGITS", memberReqDTO.getCardDigits());
+    columns.add(CardDigits);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCardExpDate())) {
+    CardExpDate = new Bin("CARDEXPDATE", memberReqDTO.getCardExpDate());
+    columns.add(CardExpDate);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getDisputeType())) {
+    DisputeType = new Bin("DISPUTETYPE", memberReqDTO.getDisputeType());
+    columns.add(DisputeType);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getDisputeRemarks())) {
+    DisputeRemarks = new Bin("DISPUTEREMARKS", memberReqDTO.getDisputeRemarks());
+    columns.add(DisputeRemarks);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd1())) {
+    Add1 = new Bin("ADD1", memberReqDTO.getAdd1());
+    columns.add(Add1);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd2())) {
+    Add2 = new Bin("ADD2", memberReqDTO.getAdd2());
+    columns.add(Add2);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd3())) {
+    Add3 = new Bin("ADD3", memberReqDTO.getAdd3());
+    columns.add(Add3);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd4())) {
+    Add4 = new Bin("ADD4", memberReqDTO.getAdd4());
+    columns.add(Add4);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd5())) {
+    Add5 = new Bin("ADD5", memberReqDTO.getAdd5());
+    columns.add(Add5);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd6())) {
+    Add6 = new Bin("ADD6", memberReqDTO.getAdd6());
+    columns.add(Add6);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd7())) {
+    Add7 = new Bin("ADD7", memberReqDTO.getAdd7());
+    columns.add(Add7);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd8())) {
+    Add8 = new Bin("ADD8", memberReqDTO.getAdd8());
+    columns.add(Add8);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd9())) {
+    Add9 = new Bin("ADD9", memberReqDTO.getAdd9());
+    columns.add(Add9);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd10())) {
+    Add10 = new Bin("ADD10", memberReqDTO.getAdd10());
+    columns.add(Add10);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCrtBy())) {
+    CrtBy = new Bin("CRTBY", memberReqDTO.getCrtBy());
+    columns.add(CrtBy);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCrtIp())) {
+    CrtIp = new Bin("CRTIP", memberReqDTO.getCrtIp());
+    columns.add(CrtIp);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMdyBy())) {
+    MdyBy = new Bin("MDYBY", memberReqDTO.getMdyBy());
+    columns.add(MdyBy);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMdyIp())) {
+    MdyIp = new Bin("MDYIP", memberReqDTO.getMdyIp());
+    columns.add(MdyIp);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusCode())) {
+    CurrStatusCode = new Bin("CURRSTATUSCODE", memberReqDTO.getCurrStatusCode());
+    columns.add(CurrStatusCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusDesc())) {
+    CurrStatusDesc = new Bin("CURRSTATUSDESC", memberReqDTO.getCurrStatusDesc());
+    columns.add(CurrStatusDesc);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getDId())) {
+    dId = new Bin("DID", memberReqDTO.getDId());
+    columns.add(dId);
+}
