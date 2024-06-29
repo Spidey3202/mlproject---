@@ -1,0 +1,166 @@
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+// Assuming Bin and transactionDTO are already defined in your code
+
+public class YourClass {
+
+    private static final Logger logger = LoggerFactory.getLogger(YourClass.class);
+
+    public void yourMethod() {
+        Bin RegNo = null;
+        Bin PgMerchantId = null;
+        Bin MeTnId = null;
+        Bin RegRefId = null;
+        Bin ReqType = null;
+        Bin VirtualAddress = null;
+        Bin PgMeTrnRefNo = null;
+        Bin BankCode = null;
+        Bin DebitCardNo = null;
+        Bin ExpDate = null;
+        Bin DisputeType = null;
+        Bin DisputeRemark = null;
+        Bin AddiInfo1 = null;
+        Bin AddiInfo2 = null;
+        Bin AddiInfo3 = null;
+        Bin AddiInfo4 = null;
+        Bin AddiInfo5 = null;
+        Bin AddiInfo6 = null;
+        Bin AddiInfo7 = null;
+        Bin AddiInfo8 = null;
+        Bin AddiInfo9 = null;
+        Bin AddiInfo10 = null;
+        Bin CrtBy = null;
+        Bin CrtIp = null;
+        Bin MdyBy = null;
+        Bin MdyIp = null;
+        Bin CurrStatusCode = null;
+        Bin CurrStatusDesc = null;
+        Bin DeviceId = null;
+
+        List<Bin> columns = new ArrayList<>();
+
+        if (StringUtils.isNotBlank(transactionDTO.getRegNo())) {
+            RegNo = new Bin("REGNO", transactionDTO.getRegNo());
+            columns.add(RegNo);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getPgMerchantId())) {
+            PgMerchantId = new Bin("PGMERCHANTID", transactionDTO.getPgMerchantId());
+            columns.add(PgMerchantId);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getMeTnId())) {
+            MeTnId = new Bin("METNID", transactionDTO.getMeTnId());
+            columns.add(MeTnId);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getRegRefId())) {
+            RegRefId = new Bin("REGREFID", transactionDTO.getRegRefId());
+            columns.add(RegRefId);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getReqType())) {
+            ReqType = new Bin("REQTYPE", transactionDTO.getReqType());
+            columns.add(ReqType);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getVirtualAddress())) {
+            VirtualAddress = new Bin("VIRTUALADDRESS", transactionDTO.getVirtualAddress());
+            columns.add(VirtualAddress);
+        }
+        if (transactionDTO.getPgMeTrnRefNo() != 0) {
+            PgMeTrnRefNo = new Bin("PGMETRNREFNO", transactionDTO.getPgMeTrnRefNo());
+            columns.add(PgMeTrnRefNo);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getBankCode())) {
+            BankCode = new Bin("BANKCODE", transactionDTO.getBankCode());
+            columns.add(BankCode);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getDebitCardNo())) {
+            DebitCardNo = new Bin("DEBITCARDNO", transactionDTO.getDebitCardNo());
+            columns.add(DebitCardNo);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getExpDate())) {
+            ExpDate = new Bin("EXPDATE", transactionDTO.getExpDate());
+            columns.add(ExpDate);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getDisputeType())) {
+            DisputeType = new Bin("DISPUTETYPE", transactionDTO.getDisputeType());
+            columns.add(DisputeType);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getDisputeRemark())) {
+            DisputeRemark = new Bin("DISPUTEREMARK", transactionDTO.getDisputeRemark());
+            columns.add(DisputeRemark);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo1())) {
+            AddiInfo1 = new Bin("ADDIINFO1", transactionDTO.getAddiInfo1());
+            columns.add(AddiInfo1);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo2())) {
+            AddiInfo2 = new Bin("ADDIINFO2", transactionDTO.getAddiInfo2());
+            columns.add(AddiInfo2);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo3())) {
+            AddiInfo3 = new Bin("ADDIINFO3", transactionDTO.getAddiInfo3());
+            columns.add(AddiInfo3);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo4())) {
+            AddiInfo4 = new Bin("ADDIINFO4", transactionDTO.getAddiInfo4());
+            columns.add(AddiInfo4);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo5())) {
+            AddiInfo5 = new Bin("ADDIINFO5", transactionDTO.getAddiInfo5());
+            columns.add(AddiInfo5);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo6())) {
+            AddiInfo6 = new Bin("ADDIINFO6", transactionDTO.getAddiInfo6());
+            columns.add(AddiInfo6);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo7())) {
+            AddiInfo7 = new Bin("ADDIINFO7", transactionDTO.getAddiInfo7());
+            columns.add(AddiInfo7);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo8())) {
+            AddiInfo8 = new Bin("ADDIINFO8", transactionDTO.getAddiInfo8());
+            columns.add(AddiInfo8);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo9())) {
+            AddiInfo9 = new Bin("ADDIINFO9", transactionDTO.getAddiInfo9());
+            columns.add(AddiInfo9);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getAddiInfo10())) {
+            AddiInfo10 = new Bin("ADDIINFO10", transactionDTO.getAddiInfo10());
+            columns.add(AddiInfo10);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getCrtBy())) {
+            CrtBy = new Bin("CRTBY", transactionDTO.getCrtBy());
+            columns.add(CrtBy);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getCrtIp())) {
+            CrtIp = new Bin("CRTIP", transactionDTO.getCrtIp());
+            columns.add(CrtIp);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getMdyBy())) {
+            MdyBy = new Bin("MDYBY", transactionDTO.getMdyBy());
+            columns.add(MdyBy);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getMdyIp())) {
+            MdyIp = new Bin("MDYIP", transactionDTO.getMdyIp());
+            columns.add(MdyIp);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getCurrStatusCode())) {
+            CurrStatusCode = new Bin("CURRSTATUSCODE", transactionDTO.getCurrStatusCode());
+            columns.add(CurrStatusCode);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getCurrStatusDesc())) {
+            CurrStatusDesc = new Bin("CURRSTATUSDESC", transactionDTO.getCurrStatusDesc());
+            columns.add(CurrStatusDesc);
+        }
+        if (StringUtils.isNotBlank(transactionDTO.getDeviceId())) {
+            DeviceId = new Bin("DEVICEID", transactionDTO.getDeviceId());
+            columns.add(DeviceId);
+        }
+
+        // Logging the transaction ID
+        logger.info("Transaction ID: {}", transactionDTO.getTxnIc());
+    }
+}
