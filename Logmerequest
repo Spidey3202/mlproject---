@@ -40,112 +40,159 @@ Bin AccId = null;
 
 
 
-if (StringUtils.isNotBlank(memberReqDTO.getTxnId())) {
-            logger.doLog(LOGC.LTI, "Fetching Member request details against TxnID: " + memberReqDTO.getTxnId());
-
-            Key key = new Key("namespace", "set", memberReqDTO.getTxnId());
-            Record record = client.get(null, key);
-
-            if (record != null) {
-                RegNo = new Bin("RegNo", record.getString("REGNO"));
-                PspCode = new Bin("PspCode", record.getString("PSPCODE"));
-                MeTxnId = new Bin("MeTxnId", record.getString("METXNID"));
-                PspRefNo = new Bin("PspRefNo", record.getString("PSPREFNO"));
-                ReqType = new Bin("ReqType", record.getString("REQTYPE"));
-                VirtualAddress = new Bin("VirtualAddress", record.getString("VIRTUALADDRESS"));
-                MetinRefno = new Bin("MetinRefno", record.getString("METRNREFNO"));
-                BankCode = new Bin("BankCode", record.getString("BANKCODE"));
-                CardDigits = new Bin("CardDigits", record.getString("CARDDIGITS"));
-                CardExpDate = new Bin("CardExpDate", record.getString("CARDEXPDATE"));
-                DisputeType = new Bin("DisputeType", record.getString("DISPUTETYPE"));
-                DisputeRemarks = new Bin("DisputeRemarks", record.getString("DISPUTEREMARKS"));
-                Add1 = new Bin("Add1", record.getString("ADD1"));
-                Add2 = new Bin("Add2", record.getString("ADD2"));
-                Add3 = new Bin("Add3", record.getString("ADD3"));
-                Add4 = new Bin("Add4", record.getString("ADD4"));
-                Add5 = new Bin("Add5", record.getString("ADD5"));
-                Add6 = new Bin("Add6", record.getString("ADD6"));
-                Add7 = new Bin("Add7", record.getString("ADD7"));
-                Add8 = new Bin("Add8", record.getString("ADD8"));
-                Add9 = new Bin("Add9", record.getString("ADD9"));
-                Add10 = new Bin("Add10", record.getString("ADD10"));
-                CrtBy = new Bin("CrtBy", record.getString("CRTBY"));
-                CrtIp = new Bin("CrtIp", record.getString("CRT_IP"));
-                MdyBy = new Bin("MdyBy", record.getString("MDYBY"));
-                MdyIp = new Bin("MdyIp", record.getString("MDYIP"));
-                CurrStatusCode = new Bin("CurrStatusCode", record.getString("CURRSTATUSCODE"));
-                CurrStatusDesc = new Bin("CurrStatusDesc", record.getString("CURRSTATUSDESC"));
-                dId = new Bin("dId", record.getString("DID"));
-                MobileNo = new Bin("MobileNo", record.getString("MOBILENO"));
-                FspId = new Bin("FspId", record.getString("FSPID"));
-                Geocode = new Bin("Geocode", record.getString("GEOCODE"));
-                Location = new Bin("Location", record.getString("LOCATION"));
-                Ip = new Bin("Ip", record.getString("IP"));
-                Type = new Bin("Type", record.getString("TYPE"));
-                Os = new Bin("Os", record.getString("OS"));
-                App = new Bin("App", record.getString("APP"));
-                Capability = new Bin("Capability", record.getString("CAPABILITY"));
-                AccId = new Bin("AccId", record.getString("ACCID"));
-
-                // Populate memberReqDTO with the values from the Bins
-                memberReqDTO.setRegNo(RegNo.value.getString());
-                memberReqDTO.setPspCode(PspCode.value.getString());
-                memberReqDTO.setMeTxnId(MeTxnId.value.getString());
-                memberReqDTO.setPspRefNo(PspRefNo.value.getString());
-                memberReqDTO.setReqType(ReqType.value.getString());
-                memberReqDTO.setVirtualAddress(VirtualAddress.value.getString());
-                memberReqDTO.setMetinRefno(MetinRefno.value.getString());
-                memberReqDTO.setBankCode(BankCode.value.getString());
-                memberReqDTO.setCardDigits(CardDigits.value.getString());
-                memberReqDTO.setCardExpDate(CardExpDate.value.getString());
-                memberReqDTO.setDisputeType(DisputeType.value.getString());
-                memberReqDTO.setDisputeRemarks(DisputeRemarks.value.getString());
-                memberReqDTO.setAdd1(Add1.value.getString());
-                memberReqDTO.setAdd2(Add2.value.getString());
-                memberReqDTO.setAdd3(Add3.value.getString());
-                memberReqDTO.setAdd4(Add4.value.getString());
-                memberReqDTO.setAdd5(Add5.value.getString());
-                memberReqDTO.setAdd6(Add6.value.getString());
-                memberReqDTO.setAdd7(Add7.value.getString());
-                memberReqDTO.setAdd8(Add8.value.getString());
-                memberReqDTO.setAdd9(Add9.value.getString());
-                memberReqDTO.setAdd10(Add10.value.getString());
-                memberReqDTO.setCrtBy(CrtBy.value.getString());
-                memberReqDTO.setCrtIp(CrtIp.value.getString());
-                memberReqDTO.setMdyBy(MdyBy.value.getString());
-                memberReqDTO.setMdyIp(MdyIp.value.getString());
-                memberReqDTO.setCurrStatusCode(CurrStatusCode.value.getString());
-                memberReqDTO.setCurrStatusDesc(CurrStatusDesc.value.getString());
-                memberReqDTO.setdId(dId.value.getString());
-                memberReqDTO.setMobileNo(MobileNo.value.getString());
-                memberReqDTO.setFspId(FspId.value.getString());
-                memberReqDTO.setGeocode(Geocode.value.getString());
-                memberReqDTO.setLocation(Location.value.getString());
-                memberReqDTO.setIp(Ip.value.getString());
-                memberReqDTO.setType(Type.value.getString());
-                memberReqDTO.setOs(Os.value.getString());
-                memberReqDTO.setApp(App.value.getString());
-                memberReqDTO.setCapability(Capability.value.getString());
-                memberReqDTO.setAccId(AccId.value.getString());
-
-                memberReqDTO.setStatusCode(CommonConstant.SUCCESS);
-                memberReqDTO.setStatusDesc(CommonConstant.SUCCESS_DESC);
-            } else {
-                throw new EmptyResultDataAccessException("No member request details found for TxnId: " + memberReqDTO.getTxnId(), 1);
-            }
-        } else {
-            logger.doLog(LOGC.LTI, "TxnID is blank, cannot fetch Member request details.");
-            memberReqDTO.setStatusCode(CommonConstant.INVALID_INPUT);
-            memberReqDTO.setStatusDesc("TxnID is blank");
-        }
-    } catch (EmptyResultDataAccessException ex) {
-        logger.doLog(LOGC.ITI, "Fetching Member request details not found.", ex);
-        memberReqDTO.setStatusCode(CommonConstant.NOT_FOUND);
-        memberReqDTO.setStatusDesc(CommonConstant.NOT_FOUND_DESC);
-    } catch (Exception ex) {
-        logger.doLog(LOGC.LIE, "Exception occurred while fetching Member request details, Exception: " + CommonUtils.getStackTrace(ex), ex);
-        memberReqDTO.setStatusCode(CommonConstant.ERROR_STATUS_CODE);
-        memberReqDTO.setStatusDesc(CommonConstant.ERROR_STATUS_DESC);
-    }
-    return memberReqDTO;
+if (StringUtils.isNotBlank(memberReqDTO.getRegNo())) {
+    RegNo = new Bin("REGNO", memberReqDTO.getRegNo());
+    columns.add(RegNo);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getPspCode())) {
+    PspCode = new Bin("PSPCODE", memberReqDTO.getPspCode());
+    columns.add(PspCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMeTxnId())) {
+    MeTxnId = new Bin("METXNID", memberReqDTO.getMeTxnId());
+    columns.add(MeTxnId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getPspRefNo())) {
+    PspRefNo = new Bin("PSPREFNO", memberReqDTO.getPspRefNo());
+    columns.add(PspRefNo);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getReqType())) {
+    ReqType = new Bin("REQTYPE", memberReqDTO.getReqType());
+    columns.add(ReqType);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getVirtualAddress())) {
+    VirtualAddress = new Bin("VIRTUALADDRESS", memberReqDTO.getVirtualAddress());
+    columns.add(VirtualAddress);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMetinRefno())) {
+    MetinRefno = new Bin("METRNREFNO", memberReqDTO.getMetinRefno());
+    columns.add(MetinRefno);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getBankCode())) {
+    BankCode = new Bin("BANKCODE", memberReqDTO.getBankCode());
+    columns.add(BankCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCardDigits())) {
+    CardDigits = new Bin("CARDDIGITS", memberReqDTO.getCardDigits());
+    columns.add(CardDigits);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCardExpDate())) {
+    CardExpDate = new Bin("CARDEXPDATE", memberReqDTO.getCardExpDate());
+    columns.add(CardExpDate);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getDisputeType())) {
+    DisputeType = new Bin("DISPUTETYPE", memberReqDTO.getDisputeType());
+    columns.add(DisputeType);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getDisputeRemarks())) {
+    DisputeRemarks = new Bin("DISPUTEREMARKS", memberReqDTO.getDisputeRemarks());
+    columns.add(DisputeRemarks);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd1())) {
+    Add1 = new Bin("ADD1", memberReqDTO.getAdd1());
+    columns.add(Add1);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd2())) {
+    Add2 = new Bin("ADD2", memberReqDTO.getAdd2());
+    columns.add(Add2);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd3())) {
+    Add3 = new Bin("ADD3", memberReqDTO.getAdd3());
+    columns.add(Add3);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd4())) {
+    Add4 = new Bin("ADD4", memberReqDTO.getAdd4());
+    columns.add(Add4);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd5())) {
+    Add5 = new Bin("ADD5", memberReqDTO.getAdd5());
+    columns.add(Add5);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd6())) {
+    Add6 = new Bin("ADD6", memberReqDTO.getAdd6());
+    columns.add(Add6);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd7())) {
+    Add7 = new Bin("ADD7", memberReqDTO.getAdd7());
+    columns.add(Add7);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd8())) {
+    Add8 = new Bin("ADD8", memberReqDTO.getAdd8());
+    columns.add(Add8);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd9())) {
+    Add9 = new Bin("ADD9", memberReqDTO.getAdd9());
+    columns.add(Add9);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAdd10())) {
+    Add10 = new Bin("ADD10", memberReqDTO.getAdd10());
+    columns.add(Add10);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCrtBy())) {
+    CrtBy = new Bin("CRTBY", memberReqDTO.getCrtBy());
+    columns.add(CrtBy);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCrtIp())) {
+    CrtIp = new Bin("CRT_IP", memberReqDTO.getCrtIp());
+    columns.add(CrtIp);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMdyBy())) {
+    MdyBy = new Bin("MDYBY", memberReqDTO.getMdyBy());
+    columns.add(MdyBy);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMdyIp())) {
+    MdyIp = new Bin("MDYIP", memberReqDTO.getMdyIp());
+    columns.add(MdyIp);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusCode())) {
+    CurrStatusCode = new Bin("CURRSTATUSCODE", memberReqDTO.getCurrStatusCode());
+    columns.add(CurrStatusCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusDesc())) {
+    CurrStatusDesc = new Bin("CURRSTATUSDESC", memberReqDTO.getCurrStatusDesc());
+    columns.add(CurrStatusDesc);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getdId())) {
+    dId = new Bin("DID", memberReqDTO.getdId());
+    columns.add(dId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getMobileNo())) {
+    MobileNo = new Bin("MOBILENO", memberReqDTO.getMobileNo());
+    columns.add(MobileNo);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getFspId())) {
+    FspId = new Bin("FSPID", memberReqDTO.getFspId());
+    columns.add(FspId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getGeocode())) {
+    Geocode = new Bin("GEOCODE", memberReqDTO.getGeocode());
+    columns.add(Geocode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getLocation())) {
+    Location = new Bin("LOCATION", memberReqDTO.getLocation());
+    columns.add(Location);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getIp())) {
+    Ip = new Bin("IP", memberReqDTO.getIp());
+    columns.add(Ip);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getType())) {
+    Type = new Bin("TYPE", memberReqDTO.getType());
+    columns.add(Type);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getOs())) {
+    Os = new Bin("OS", memberReqDTO.getOs());
+    columns.add(Os);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getApp())) {
+    App = new Bin("APP", memberReqDTO.getApp());
+    columns.add(App);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCapability())) {
+    Capability = new Bin("CAPABILITY", memberReqDTO.getCapability());
+    columns.add(Capability);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getAccId())) {
+    AccId = new Bin("ACCID", memberReqDTO.getAccId());
+    columns.add(AccId);
 }
