@@ -1,116 +1,37 @@
-import os
-import re
+// Initialize the columns list
+List<Bin> columns = new ArrayList<>();
 
-# Define the paths to the files
-dto_file_path = 'path/to/dto/file'
-jdbc_repo_file_path = 'path/to/jdbc/repo/file'
-aerospike_repo_file_path = 'path/to/aerospike/repo/file'
+// Check each field and add it to the columns list if it is not blank
 
-# Read the content of the files
-with open(dto_file_path, 'r') as file:
-    dto_content = file.read()
-
-with open(jdbc_repo_file_path, 'r') as file:
-    jdbc_repo_content = file.read()
-
-with open(aerospike_repo_file_path, 'r') as file:
-    aerospike_repo_content = file.read()
-
-# Extract fields from the DTO file (assuming fields are defined in a certain format)
-fields = re.findall(r'\bprivate\b\s+\b(?:String|int|long|boolean|double|float|char|byte|short|Object)\b\s+(\w+);', dto_content)
-
-# Function to generate Aerospike bin initialization from fields
-def generate_bins(fields):
-    bins = [f'Bin("{field}", {field})' for field in fields]
-    return ', '.join(bins)
-
-# Extract insertion, updation, and fetching methods from the JDBC repo
-insert_method = re.search(r'public void insert\(.+?\{(.+?)\}', jdbc_repo_content, re.DOTALL)
-
-
-
-
-import re
-
-# Define the paths to the files
-dto_file_path = 'path/to/dto/file'
-jdbc_repo_file_path = 'path/to/jdbc/repo/file'
-aerospike_repo_file_path = 'path/to/aerospike/repo/file'
-
-# Read the content of the files
-with open(dto_file_path, 'r') as file:
-    dto_content = file.read()
-
-with open(jdbc_repo_file_path, 'r') as file:
-    jdbc_repo_content = file.read()
-
-with open(aerospike_repo_file_path, 'r') as file:
-    aerospike_repo_content = file.read()
-
-# Extract fields from the DTO file (assuming fields are defined in a certain format)
-fields = re.findall(r'\bprivate\b\s+\b(?:String|int|long|boolean|double|float|char|byte|short|Object)\b\s+(\w+);', dto_content)
-
-# Function to generate Aerospike bin initialization from fields
-def generate_bins(fields, dto_prefix='transactionDTO'):
-    bins = [f'Bin("{field}", {dto_prefix}.get{field.capitalize()}())' for field in fields]
-    return ', '.join(bins)
-
-# Extract the provided JDBC update method
-jdbc_update_method = """
-public void upadtePspTransactionStatus(TransactionDTO transactionDTO) {
-    try {
-        int updatePspTrnStatus = jdbcTemplate.update(QueryConstant.SQL_UPDATE_PSP_TRANSACTION_STATUS,
-            transactionDTO.getCurrStatusCode(), transactionDTO.getCurrStatusDesc(), transactionDTO.getMdyBy(),
-            transactionDTO.getMdyDate(), transactionDTO.getMdyIp(), transactionDTO.getPyTrnRefNo());
-        if (updatePspTrnStatus > 0) {
-            logger.doLog(LOGC.LTI, transactionDTO.getTxnId(), "Psp Transaction status updated successfully.", "");
-            transactionDTO.setStatusCode(CommonConstant.SUCCESS);
-            transactionDTO.setStatusDesc(CommonConstant.SUCCESS_DESC);
-        } else {
-            logger.doLog(LOGC.LTI, transactionDTO.getTxnId(), "Unable to update Psp transaction status.", "");
-            transactionDTO.setStatusCode(CommonConstant.FAILED);
-            transactionDTO.setStatusDesc(CommonConstant.FAILED_DESC);
-        }
-    } catch (Exception e) {
-        logger.doLog(LOGC.LTE, transactionDTO.getTxnId(), "Error Occurred: " + CommonUtils.getStackTrace(e), "");
-        transactionDTO.setStatusCode(CommonConstant.ERROR_STATUS_CODE);
-        transactionDTO.setStatusDesc(CommonConstant.ERROR_STATUS_DESC);
-    }
-    return;
+if (StringUtils.isNotBlank(memberReqDTO.getTxnId())) {
+    Bin txnId = new Bin("TXNID", memberReqDTO.getTxnId());
+    columns.add(txnId);
 }
-"""
+if (StringUtils.isNotBlank(memberReqDTO.getMsgTypeId())) {
+    Bin msgTypeId = new Bin("MSGTYPEID", memberReqDTO.getMsgTypeId());
+    columns.add(msgTypeId);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getFvaName())) {
+    Bin fvaName = new Bin("FVANAME", memberReqDTO.getFvaName());
+    columns.add(fvaName);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getFvAddr())) {
+    Bin fvAddr = new Bin("FVADDR", memberReqDTO.getFvAddr());
+    columns.add(fvAddr);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusCode())) {
+    Bin currStatusCode = new Bin("CURRSTATUSCODE", memberReqDTO.getCurrStatusCode());
+    columns.add(currStatusCode);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getCurrStatusDesc())) {
+    Bin currStatusDesc = new Bin("CURRSTATUSDESC", memberReqDTO.getCurrStatusDesc());
+    columns.add(currStatusDesc);
+}
+if (StringUtils.isNotBlank(memberReqDTO.getTrnRefNo())) {
+    Bin trnRefNo = new Bin("TRNREFNO", memberReqDTO.getTrnRefNo());
+    columns.add(trnRefNo);
+}
 
-# Generate the Aerospike update method content
-aerospike_update_method_content = f"""
-public void updatePspTransactionStatus(TransactionDTO transactionDTO) {{
-    try {{
-        Key key = new Key("namespace", "set", transactionDTO.getPyTrnRefNo());
-        Bin[] bins = new Bin[] {{
-            new Bin("currStatusCode", transactionDTO.getCurrStatusCode()),
-            new Bin("currStatusDesc", transactionDTO.getCurrStatusDesc()),
-            new Bin("mdyBy", transactionDTO.getMdyBy()),
-            new Bin("mdyDate", transactionDTO.getMdyDate()),
-            new Bin("mdyIp", transactionDTO.getMdyIp())
-        }};
-        client.put(null, key, bins);
-        logger.doLog(LOGC.LTI, transactionDTO.getTxnId(), "Psp Transaction status updated successfully.", "");
-        transactionDTO.setStatusCode(CommonConstant.SUCCESS);
-        transactionDTO.setStatusDesc(CommonConstant.SUCCESS_DESC);
-    }} catch (Exception e) {{
-        logger.doLog(LOGC.LTE, transactionDTO.getTxnId(), "Error Occurred: " + CommonUtils.getStackTrace(e), "");
-        transactionDTO.setStatusCode(CommonConstant.ERROR_STATUS_CODE);
-        transactionDTO.setStatusDesc(CommonConstant.ERROR_STATUS_DESC);
-    }}
-    return;
-}}
-"""
-
-# Integrate the new method into the Aerospike repo file
-aerospike_repo_content = re.sub(r'(public void updatePspTransactionStatus\(.+?\{.+?\})', aerospike_update_method_content, aerospike_repo_content, flags=re.DOTALL)
-
-# Write the updated Aerospike repo content back to the file
-with open(aerospike_repo_file_path, 'w') as file:
-    file.write(aerospike_repo_content)
-
-print("Aerospike repository file updated successfully.")
-update_method = re.search(r'public 
+// Perform the put operation into Aerospike
+Key key = new Key("namespace", "set", "primaryKey"); // Replace with actual namespace, set, and primary key
+aerospikeClient.put(null, key, columns.toArray(new Bin[0]));
