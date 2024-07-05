@@ -1,33 +1,48 @@
-// Assuming record is an instance of Aerospike Record containing the fetched data
-merchantReqDTO.setReqNo(record.getString("REQNO"));
-merchantReqDTO.setPgMerchantId(record.getString("PGMERCHANTID"));
-merchantReqDTO.setTxnId(record.getString("METXNID"));
-merchantReqDTO.setRegRefId(record.getString("REGREFID"));
-merchantReqDTO.setReqType(record.getString("REQTYPE"));
-merchantReqDTO.setVirtualAddress(record.getString("VIRTUALADDRESS"));
-merchantReqDTO.setPgMeTrnRefNo(record.getString("METRNREFNO"));
-merchantReqDTO.setBankCode(record.getString("BANKCODE"));
-merchantReqDTO.setCardDigits(record.getString("CARDDIGITS"));
-merchantReqDTO.setCardExpDate(record.getString("CARDEXPDATE"));
-merchantReqDTO.setDisputeType(record.getString("DISPUTETYPE"));
-merchantReqDTO.setDisputeRemarks(record.getString("DISPUTEREMARKS"));
-merchantReqDTO.setAdd1(record.getString("ADD1"));
-merchantReqDTO.setAdd2(record.getString("ADD2"));
-merchantReqDTO.setAdd3(record.getString("ADD3"));
-merchantReqDTO.setAdd4(record.getString("ADD4"));
-merchantReqDTO.setAdd5(record.getString("ADD5"));
-merchantReqDTO.setAdd6(record.getString("ADD6"));
-merchantReqDTO.setAdd7(record.getString("ADD7"));
-merchantReqDTO.setAdd8(record.getString("ADD8"));
-merchantReqDTO.setAdd9(record.getString("ADD9"));
-merchantReqDTO.setAdd10(record.getString("ADD10"));
-merchantReqDTO.setPspId(record.getString("PSPID"));
-merchantReqDTO.setRegRefId(record.getString("REGREFID")); // Assuming there are two REGREFID fields
-merchantReqDTO.setDid(record.getString("DID"));
-merchantReqDTO.setGeoCode(record.getString("GEOCODE"));
-merchantReqDTO.setLocation(record.getString("LOCATION"));
-merchantReqDTO.setIp(record.getString("IP"));
-merchantReqDTO.setType(record.getString("TYPE"));
-merchantReqDTO.setOs(record.getString("OS"));
-merchantReqDTO.setApp(record.getString("APP"));
-merchantReqDTO.setCapability(record.getString("CAPABILITY"));
+
+// Initialize all Bin variables as null
+Bin txnId = null;
+Bin messageType = null;
+Bin upiId = null;
+Bin queueStatus = null;
+Bin queueStatusDesc = null;
+Bin queueRefNo = null;
+
+// Create a collection to hold the Bin objects
+List<Bin> columns = new ArrayList<>();
+
+// Fetch values from queueMessage and check if not blank before setting
+if (StringUtils.isNotBlank(queueMessage.getTxnId())) {
+    txnId = new Bin("TXNID", queueMessage.getTxnId());
+    columns.add(txnId);
+    addRDto.setTxnId(queueMessage.getTxnId());
+}
+
+if (StringUtils.isNotBlank(queueMessage.getMessageType())) {
+    messageType = new Bin("MESSAGETYPE", queueMessage.getMessageType());
+    columns.add(messageType);
+    addRDto.setMessageType(queueMessage.getMessageType());
+}
+
+if (StringUtils.isNotBlank(queueMessage.getUpiId())) {
+    upiId = new Bin("UPIID", queueMessage.getUpiId());
+    columns.add(upiId);
+    addRDto.setUpiId(queueMessage.getUpiId());
+}
+
+if (StringUtils.isNotBlank(queueMessage.getQueueStatus())) {
+    queueStatus = new Bin("QUEUESTATUS", queueMessage.getQueueStatus());
+    columns.add(queueStatus);
+    addRDto.setQueueStatus(queueMessage.getQueueStatus());
+}
+
+if (StringUtils.isNotBlank(queueMessage.getQueueStatusDesc())) {
+    queueStatusDesc = new Bin("QUEUESTATUSDESC", queueMessage.getQueueStatusDesc());
+    columns.add(queueStatusDesc);
+    addRDto.setQueueStatusDesc(queueMessage.getQueueStatusDesc());
+}
+
+if (StringUtils.isNotBlank(queueMessage.getQueueRefNo())) {
+    queueRefNo = new Bin("QUEUEREFNO", queueMessage.getQueueRefNo());
+    columns.add(queueRefNo);
+    addRDto.setQueueRefNo(queueMessage.getQueueRefNo());
+}
