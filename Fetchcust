@@ -1,48 +1,63 @@
 
 // Initialize all Bin variables as null
+import org.apache.commons.lang3.StringUtils;
+import com.aerospike.client.Bin;
+import java.util.ArrayList;
+import java.util.List;
+
+// Assuming you have an instance of QueMapper
+QueMapper quemapper = new QueMapper(); // Replace with actual instantiation if needed
+
+// Initialize all Bin variables as null
 Bin txnId = null;
-Bin messageType = null;
-Bin upiId = null;
-Bin queueStatus = null;
-Bin queueStatusDesc = null;
-Bin queueRefNo = null;
+Bin msgTypeId = null;
+Bin quStatusCode = null;
+Bin quStatusDesc = null;
+Bin trnRefNo = null;
+Bin txnType = null;
 
 // Create a collection to hold the Bin objects
 List<Bin> columns = new ArrayList<>();
 
-// Fetch values from queueMessage and check if not blank before setting
-if (StringUtils.isNotBlank(queueMessage.getTxnId())) {
-    txnId = new Bin("TXNID", queueMessage.getTxnId());
+// Fetch values from queue and check if not blank before setting
+if (StringUtils.isNotBlank(queue.getTxnId())) {
+    txnId = new Bin("TXNID", queue.getTxnId());
     columns.add(txnId);
-    addRDto.setTxnId(queueMessage.getTxnId());
+    quemapper.setTxnId(queue.getTxnId());
 }
 
-if (StringUtils.isNotBlank(queueMessage.getMessageType())) {
-    messageType = new Bin("MESSAGETYPE", queueMessage.getMessageType());
-    columns.add(messageType);
-    addRDto.setMessageType(queueMessage.getMessageType());
+if (StringUtils.isNotBlank(queue.getMsgTypeId())) {
+    msgTypeId = new Bin("MSGTYPEID", queue.getMsgTypeId());
+    columns.add(msgTypeId);
+    quemapper.setMsgTypeId(queue.getMsgTypeId());
 }
 
-if (StringUtils.isNotBlank(queueMessage.getUpiId())) {
-    upiId = new Bin("UPIID", queueMessage.getUpiId());
-    columns.add(upiId);
-    addRDto.setUpiId(queueMessage.getUpiId());
+// Setting null explicitly is optional since it is already initialized as null
+quStatusCode = new Bin("QUSTATUSCODE", null);
+columns.add(quStatusCode); // Add null Bin object to maintain the order
+
+if (StringUtils.isNotBlank(queue.getQuStatusCode())) {
+    quStatusCode = new Bin("QUSTATUSCODE", queue.getQuStatusCode());
+    columns.set(columns.indexOf(quStatusCode), quStatusCode); // Replace the null Bin with the actual one
+    quemapper.setQuStatusCode(queue.getQuStatusCode());
 }
 
-if (StringUtils.isNotBlank(queueMessage.getQueueStatus())) {
-    queueStatus = new Bin("QUEUESTATUS", queueMessage.getQueueStatus());
-    columns.add(queueStatus);
-    addRDto.setQueueStatus(queueMessage.getQueueStatus());
+if (StringUtils.isNotBlank(queue.getQuStatusDesc())) {
+    quStatusDesc = new Bin("QUSTATUSDESC", queue.getQuStatusDesc());
+    columns.add(quStatusDesc);
+    quemapper.setQuStatusDesc(queue.getQuStatusDesc());
 }
 
-if (StringUtils.isNotBlank(queueMessage.getQueueStatusDesc())) {
-    queueStatusDesc = new Bin("QUEUESTATUSDESC", queueMessage.getQueueStatusDesc());
-    columns.add(queueStatusDesc);
-    addRDto.setQueueStatusDesc(queueMessage.getQueueStatusDesc());
+if (StringUtils.isNotBlank(queue.getTrnRefNo())) {
+    trnRefNo = new Bin("TRNREFNO", queue.getTrnRefNo());
+    columns.add(trnRefNo);
+    quemapper.setTrnRefNo(queue.getTrnRefNo());
 }
 
-if (StringUtils.isNotBlank(queueMessage.getQueueRefNo())) {
-    queueRefNo = new Bin("QUEUEREFNO", queueMessage.getQueueRefNo());
-    columns.add(queueRefNo);
-    addRDto.setQueueRefNo(queueMessage.getQueueRefNo());
+if (StringUtils.isNotBlank(queue.getTxnType())) {
+    txnType = new Bin("TXNTYPE", queue.getTxnType());
+    columns.add(txnType);
+    quemapper.setTxnType(queue.getTxnType());
 }
+
+// Now, columns list contains all the Bin objects
