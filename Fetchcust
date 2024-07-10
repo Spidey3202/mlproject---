@@ -1,9 +1,14 @@
 
 
-// Directly setting values in queuemapper without initialization or null checks
+// Assuming queuemapper and record are already defined and initialized
+queuemapper.setTxnId(record.getString("TXNID"));
 queuemapper.setCurrStatusCode(record.getInt("QUSTATUSCODE"));
 queuemapper.setCurrStatusDesc(record.getString("QUSTATUSDESC"));
-queuemapper.setMndStatusCode(record.getString("MNDSTATUSCODE"));
-queuemapper.setMndStatusDesc(record.getString("MNDSTATUSDESC"));
+queuemapper.setResMsg(record.getString("RESMSG"));
+queuemapper.setTxnInit(record.getString("TXNINIT"));
 queuemapper.setRespCode(record.getString("RESPCODE"));
+queuemapper.setApprovalNum(record.getString("APPROVALNUM"));
+queuemapper.setTxnAmount(record.getString("TXNAMOUNT"));
+queuemapper.setPrfVAddr(record.getString("PRFVADDR"));
 queuemapper.setErrorCode(record.getString("ERRORCODE"));
+queuemapper.setPyRespCode(record.getString("PYRESPCODE"));
