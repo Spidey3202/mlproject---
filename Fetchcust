@@ -1,63 +1,10 @@
 
-// Initialize all Bin variables as null
-import org.apache.commons.lang3.StringUtils;
-import com.aerospike.client.Bin;
-import java.util.ArrayList;
-import java.util.List;
 
-// Assuming you have an instance of QueMapper
-QueMapper quemapper = new QueMapper(); // Replace with actual instantiation if needed
-
-// Initialize all Bin variables as null
-Bin txnId = null;
-Bin msgTypeId = null;
-Bin quStatusCode = null;
-Bin quStatusDesc = null;
-Bin trnRefNo = null;
-Bin txnType = null;
-
-// Create a collection to hold the Bin objects
-List<Bin> columns = new ArrayList<>();
-
-// Fetch values from queue and check if not blank before setting
-if (StringUtils.isNotBlank(queue.getTxnId())) {
-    txnId = new Bin("TXNID", queue.getTxnId());
-    columns.add(txnId);
-    quemapper.setTxnId(queue.getTxnId());
-}
-
-if (StringUtils.isNotBlank(queue.getMsgTypeId())) {
-    msgTypeId = new Bin("MSGTYPEID", queue.getMsgTypeId());
-    columns.add(msgTypeId);
-    quemapper.setMsgTypeId(queue.getMsgTypeId());
-}
-
-// Setting null explicitly is optional since it is already initialized as null
-quStatusCode = new Bin("QUSTATUSCODE", null);
-columns.add(quStatusCode); // Add null Bin object to maintain the order
-
-if (StringUtils.isNotBlank(queue.getQuStatusCode())) {
-    quStatusCode = new Bin("QUSTATUSCODE", queue.getQuStatusCode());
-    columns.set(columns.indexOf(quStatusCode), quStatusCode); // Replace the null Bin with the actual one
-    quemapper.setQuStatusCode(queue.getQuStatusCode());
-}
-
-if (StringUtils.isNotBlank(queue.getQuStatusDesc())) {
-    quStatusDesc = new Bin("QUSTATUSDESC", queue.getQuStatusDesc());
-    columns.add(quStatusDesc);
-    quemapper.setQuStatusDesc(queue.getQuStatusDesc());
-}
-
-if (StringUtils.isNotBlank(queue.getTrnRefNo())) {
-    trnRefNo = new Bin("TRNREFNO", queue.getTrnRefNo());
-    columns.add(trnRefNo);
-    quemapper.setTrnRefNo(queue.getTrnRefNo());
-}
-
-if (StringUtils.isNotBlank(queue.getTxnType())) {
-    txnType = new Bin("TXNTYPE", queue.getTxnType());
-    columns.add(txnType);
-    quemapper.setTxnType(queue.getTxnType());
-}
-
-// Now, columns list contains all the Bin objects
+// Directly setting values in queuemapper without initialization or null checks
+queuemapper.setCurrStatusCode(record.getInt("QUSTATUSCODE"));
+queuemapper.setCurrStatusDesc(record.getString("QUSTATUSDESC"));
+queuemapper.setMndStatusCode(record.getString("MNDSTATUSCODE"));
+queuemapper.setMndStatusDesc(record.getString("MNDSTATUSDESC"));
+queuemapper.setRespCode(record.getString("RESPCODE"));
+queuemapper.setErrorCode(record.getString("ERRORCODE"));
+queuemapper.setUmn(record.getString("UMN"));
