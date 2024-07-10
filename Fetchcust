@@ -7,4 +7,3 @@ queuemapper.setMndStatusCode(record.getString("MNDSTATUSCODE"));
 queuemapper.setMndStatusDesc(record.getString("MNDSTATUSDESC"));
 queuemapper.setRespCode(record.getString("RESPCODE"));
 queuemapper.setErrorCode(record.getString("ERRORCODE"));
-queuemapper.setUmn(record.getString("UMN"));
