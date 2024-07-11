@@ -1,85 +1,92 @@
 
 
-Bin txnId = null;
-Bin msgTypeId = null;
-Bin fvaName = null;
-Bin fvaAddr = null;
-Bin quStatusCode = null;
-Bin quStatusDesc = null;
-Bin trnRefNo = null;
-Bin txnType = null;
-Bin resMsg = null;
-Bin txnInit = null;
-Bin respCode = null;
-Bin approvalNum = null;
-Bin txnAmount = null;
-Bin prfVAddr = null;
-Bin errorCode = null;
-Bin pyRespCode = null;
+import com.aerospike.client.AerospikeClient;
+import com.aerospike.client.Host;
+import com.aerospike.client.policy.ClientPolicy;
+import com.aerospike.client.policy.Policy;
+import com.aerospike.client.task.IndexTask;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-List<Bin> columns = new ArrayList<>();
+@Configuration
+public class AerospikeConfig {
 
-if (StringUtils.isNotBlank(queue.getTxnId())) {
-    txnId = new Bin("TXNID", queue.getTxnId());
-    columns.add(txnId);
+    @Value("${aerospike.host}")
+    private String host;
+
+    @Value("${aerospike.port}")
+    private int port;
+
+    @Value("${aerospike.namespace}")
+    private String namespace;
+
+    @Bean
+    public AerospikeClient aerospikeClient() {
+        ClientPolicy clientPolicy = new ClientPolicy();
+        Host[] hosts = new Host[1];
+        hosts[0] = new Host(host, port);
+
+        AerospikeClient client = new AerospikeClient(clientPolicy, hosts);
+
+        Policy policy = new Policy();
+
+        // Create the first index
+        IndexTask task1 = client.createIndex(policy, namespace, "TABLET", "amount_idx", "amount", IndexType.NUMERIC);
+        // Create the second index
+        IndexTask task2 = client.createIndex(policy, namespace, "TABLET", "value_idx", "value", IndexType.NUMERIC);
+
+        // Wait for the indexes to be created
+        task1.waitTillComplete();
+        task2.waitTillComplete();
+
+        return client;
+    }
 }
-if (StringUtils.isNotBlank(queue.getMsgTypeId())) {
-    msgTypeId = new Bin("MSGTYPEID", queue.getMsgTypeId());
-    columns.add(msgTypeId);
+
+import com.aerospike.client.AerospikeClient;
+import com.aerospike.client.Record;
+import com.aerospike.client.policy.QueryPolicy;
+import com.aerospike.client.query.Filter;
+import com.aerospike.client.query.RecordSet;
+import com.aerospike.client.query.Statement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class AerospikeService {
+
+    @Autowired
+    private AerospikeClient aerospikeClient;
+
+    @Autowired
+    private Environment env;
+
+    public List<String> getBinsBySecondaryIndex(String binName, String secondaryIndex) {
+        List<String> bins = new ArrayList<>();
+        Statement stmt = new Statement();
+        stmt.setNamespace(env.getProperty("aerospike.namespace"));
+        stmt.setSetName("TABLET");
+        stmt.setFilter(Filter.equal(binName, secondaryIndex));
+
+        try (RecordSet rs = aerospikeClient.query(new QueryPolicy(), stmt)) {
+            while (rs.next()) {
+                Record record = rs.getRecord();
+                bins.add(record.bins.toString());
+                // Uncomment the following line to print each record's bins to the console
+                // System.out.println("Record: " + record.bins.toString());
+            }
+        } catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+        }
+
+        return bins;
+    }
 }
-if (StringUtils.isNotBlank(queue.getFvaName())) {
-    fvaName = new Bin("FVANAME", queue.getFvaName());
-    columns.add(fvaName);
-}
-if (StringUtils.isNotBlank(queue.getFvaAddr())) {
-    fvaAddr = new Bin("FVADDR", queue.getFvaAddr());
-    columns.add(fvaAddr);
-}
-if (queue.getQuStatusCode() != null) {
-    quStatusCode = new Bin("CURRSTATUSCODE", queue.getQuStatusCode());
-    columns.add(quStatusCode);
-}
-if (StringUtils.isNotBlank(queue.getQuStatusDesc())) {
-    quStatusDesc = new Bin("CURRSTATUSDESC", queue.getQuStatusDesc());
-    columns.add(quStatusDesc);
-}
-if (StringUtils.isNotBlank(queue.getTrnRefNo())) {
-    trnRefNo = new Bin("TRNREFNO", queue.getTrnRefNo());
-    columns.add(trnRefNo);
-}
-if (StringUtils.isNotBlank(queue.getTxnType())) {
-    txnType = new Bin("TXNTYPE", queue.getTxnType());
-    columns.add(txnType);
-}
-if (StringUtils.isNotBlank(queue.getResMsg())) {
-    resMsg = new Bin("RESMSG", queue.getResMsg());
-    columns.add(resMsg);
-}
-if (StringUtils.isNotBlank(queue.getTxnInit())) {
-    txnInit = new Bin("TXNINIT", queue.getTxnInit());
-    columns.add(txnInit);
-}
-if (StringUtils.isNotBlank(queue.getRespCode())) {
-    respCode = new Bin("RESPCODE", queue.getRespCode());
-    columns.add(respCode);
-}
-if (StringUtils.isNotBlank(queue.getApprovalNum())) {
-    approvalNum = new Bin("APPROVALNUM", queue.getApprovalNum());
-    columns.add(approvalNum);
-}
-if (StringUtils.isNotBlank(queue.getTxnAmount())) {
-    txnAmount = new Bin("TXNAMOUNT", queue.getTxnAmount());
-    columns.add(txnAmount);
-}
-if (StringUtils.isNotBlank(queue.getPrfVAddr())) {
-    prfVAddr = new Bin("PRFVADDR", queue.getPrfVAddr());
-    columns.add(prfVAddr);
-}
-if (StringUtils.isNotBlank(queue.getErrorCode())) {
-    errorCode = new Bin("ERRORCODE", queue.getErrorCode());
-    columns.add(errorCode);
-}
-if (StringUtils.isNotBlank(queue.getPyRespCode())) {
-    pyRespCode = new Bin("PYRESPCODE", queue.getPyRespCode());
-    columns.add(pyRespCode);
-}
+
+
